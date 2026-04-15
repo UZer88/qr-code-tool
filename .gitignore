@@ -18,7 +18,6 @@ build/
 
 # Temporary files
 temp_*.png
-test_*.py
 ocr_*.py
 generate_icon.py
 simple_ocr.py
