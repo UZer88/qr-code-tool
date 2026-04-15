@@ -1,3 +1,5 @@
+[![CI](https://github.com/UZer88/qr-code-tool/actions/workflows/ci.yml/badge.svg)](https://github.com/UZer88/qr-code-tool/actions/workflows/ci.yml)
+
 # QR Code Tool
 
 Простое приложение для генерации и сканирования QR-кодов.
