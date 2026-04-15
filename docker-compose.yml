@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  qr-cli:
+    build: .
+    volumes:
+      - ./output:/app/output
+    command: python cli.py generate "Hello from Docker" -o /app/output/qr.png

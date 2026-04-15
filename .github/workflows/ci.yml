@@ -29,5 +29,12 @@ jobs:
         pip install pytest
 
     - name: Run tests
+      env:
+        PYTHONPATH: .
       run: |
-        PYTHONPATH=. pytest tests/ -v
+        pytest tests/ -v
+
+    - name: Build Docker image
+      run: |
+        docker build -t qr-code-tool .
+        docker run --rm qr-code-tool python cli.py generate "test" -o /tmp/test.png
