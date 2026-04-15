@@ -26,9 +26,8 @@ jobs:
     - name: Install Python dependencies
       run: |
         pip install -r requirements.txt
-        pip install pytest pytest-cov
-        pip install -e .
+        pip install pytest
 
     - name: Run tests
       run: |
-        pytest tests/ -v
+        PYTHONPATH=. pytest tests/ -v
