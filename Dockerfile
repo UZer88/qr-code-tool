@@ -1,6 +1,6 @@
 FROM python:3.12-slim
 
-# Устанавливаем системные зависимости (нужны для pyzbar)
+# Устанавливаем системные зависимости (нужны для работы pyzbar)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libzbar0 \
     libzbar-dev \
@@ -8,21 +8,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Копируем зависимости и устанавливаем
+# Копируем и устанавливаем ТОЛЬКО продакшен зависимости
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Копируем весь проект
+# Копируем остальной код
 COPY . .
 
-# Переменная окружения для Python
-ENV PYTHONPATH=/app
+# Указываем порт
+EXPOSE 8000
 
-# Команда для запуска GUI (Tkinter не работает в Docker без дисплея!)
-# Поэтому сделаем две версии: GUI и CLI
-
-# Для CLI-версии (генерация и сканирование через командную строку)
-# CMD ["python", "cli.py"]
-
-# Для веб-версии (рекомендую, сделаем позже)
-# CMD ["uvicorn", "web_app:app", "--host", "0.0.0.0", "--port", "8000"]
+# Запускаем веб-сервер
+CMD ["uvicorn", "web_app:app", "--host", "0.0.0.0", "--port", "8000"]

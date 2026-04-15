@@ -1,6 +1,8 @@
-[![CI](https://github.com/UZer88/qr-code-tool/actions/workflows/ci.yml/badge.svg)](https://github.com/UZer88/qr-code-tool/actions/workflows/ci.yml)
-
 # QR Code Tool
+
+[![CI](https://github.com/UZer88/qr-code-tool/actions/workflows/ci.yml/badge.svg)](https://github.com/UZer88/qr-code-tool/actions/workflows/ci.yml)
+[![Docker](https://img.shields.io/badge/docker-ready-blue)](https://www.docker.com/)
+[![Deployed on Render](https://img.shields.io/badge/deployed%20on-render-blue)](https://qr-code-tool.onrender.com)
 
 Простое приложение для генерации и сканирования QR-кодов.
 
@@ -11,10 +13,24 @@
 - ✅ Сохранение QR-кода в файл
 - ✅ Сканирование QR-кодов из изображений
 - ✅ Копирование результата в буфер обмена
-- ✅ Современный тёмный интерфейс
-- ✅ Прокрутка для больших QR-кодов
+- ✅ Современный тёмный интерфейс (десктоп)
+- ✅ Веб-версия (доступна из браузера)
+- ✅ CLI-утилита для скриптов
+- ✅ Docker-контейнер для лёгкого развёртывания
 
-## Установка и запуск
+## Быстрый старт
+
+### Веб-версия (онлайн)
+
+Откройте в браузере: [https://qr-code-tool.onrender.com](https://qr-code-tool.onrender.com)
+
+### Локально через Docker
+
+```bash
+docker run -p 8000:8000 ghcr.io/uzer88/qr-code-tool:latest
+```
+Затем откройте http://localhost:8000
+
 
 ### Требования
 - Python 3.10 или выше
@@ -29,29 +45,71 @@ pip install qrcode[pil] pyzbar pillow pyperclip
 python qr_generator.py
 ```
 
-## Создание исполняемого файла (Windows)
+## Локальная установка
 ```bash
-pip install pyinstaller
-pyinstaller --onefile --windowed --icon=qr_icon.ico qr_generator.py
+# Клонируйте репозиторий
+git clone https://github.com/UZer88/qr-code-tool.git
+cd qr-code-tool
+
+# Создайте виртуальное окружение
+python3 -m venv venv
+source venv/bin/activate  # Linux/Mac
+# venv\Scripts\activate  # Windows
+
+# Установите зависимости
+pip install -r requirements.txt
+
+# Запустите десктоп-версию
+python qr_generator.py
+
+# Или веб-версию
+python web_app.py
+
+# Или CLI-версию
+python cli.py generate "Hello World" -o qr.png
+python cli.py scan qr.png
 ```
 
-## Использование
+## Тестирование
+```bash
+pytest tests/ -v
+```
 
-### Создание QR-кода
+## Docker
 
-1. Введите текст или URL
-2. Выберите размер QR-кода
-3. Нажмите "Создать QR код"
-4. Сохраните или скопируйте текст
+### Сборка образа
+```bash
+docker build -t qr-code-tool .
+```
 
-### Сканирование QR-кода
+### Запуск веб-версии
+```bash
+docker run -p 8000:8000 qr-code-tool
+```
 
-1. Нажмите "Выбрать файл"
-2. Выберите изображение с QR-кодом
-3. Результат отобразится на экране
-4. Нажмите "Копировать результат"
+### Запуск CLI через Docker
+```bash
+docker run --rm -v $(pwd):/app qr-code-tool python cli.py generate "test" -o /app/output.png
+```
+## Использование CLI
+```bash
+# Генерация QR-кода
+python cli.py generate "https://github.com/UZer88" -s 300 -o my_qr.png
+
+# Сканирование QR-кода
+python cli.py scan my_qr.png
+```
+
+## Технологии
+- Python 3.12+
+- Tkinter (десктопный GUI)
+- FastAPI (веб-версия)
+- qrcode, pyzbar, pillow
+- pytest (тесты)
+- Docker
 
 ## Лицензия
-
 MIT
 
+## Автор
+UZer88
